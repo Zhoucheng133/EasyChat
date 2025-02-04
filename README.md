@@ -1,3 +1,3 @@
-# easy_chat
+# EasyChat
 
-A new Flutter project.
+🏗️ 施工中
