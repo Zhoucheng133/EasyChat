@@ -5,18 +5,18 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "easy_chat",
+      "name": "Debug",
       "request": "launch",
       "type": "dart"
     },
     {
-      "name": "easy_chat (profile mode)",
+      "name": "Profile",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile"
     },
     {
-      "name": "easy_chat (release mode)",
+      "name": "Release",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release"
