@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,5 +14,9 @@ class UserVar extends GetxController{
     }else{
       loading.value=false;
     }
+  }
+
+  void login(String urlInput, BuildContext context){
+
   }
 }
