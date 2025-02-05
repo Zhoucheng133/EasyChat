@@ -19,7 +19,9 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
   void initState() {
     super.initState();
     windowManager.addListener(this);
-    u.init();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      u.init(context);
+    });
   }
 
   bool isMax=false;
