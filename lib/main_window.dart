@@ -1,6 +1,10 @@
 import 'dart:io';
 
+import 'package:easy_chat/pages/login.dart';
+import 'package:easy_chat/variables/user_var.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:window_manager/window_manager.dart';
 
 class MainWindow extends StatefulWidget {
@@ -11,14 +15,15 @@ class MainWindow extends StatefulWidget {
 }
 
 class _MainWindowState extends State<MainWindow> with WindowListener {
-
   @override
   void initState() {
     super.initState();
     windowManager.addListener(this);
+    u.init();
   }
 
   bool isMax=false;
+  final UserVar u=Get.put(UserVar());
 
   @override
   void onWindowMaximize() {
@@ -35,7 +40,6 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
     });
     super.onWindowUnmaximize();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +62,19 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
             ],
           ),
         ),
-        Expanded(child: Container())
+        Expanded(
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 200),
+            child: Obx(()=>
+              u.loading.value ? Center(
+                child: LoadingAnimationWidget.beat(
+                  color: Colors.yellow[700]!, 
+                  size: 30
+                ),
+              ) : u.url.value.isEmpty ? const Login() : Container()
+            ),
+          )
+        )
       ],
     );
   }
