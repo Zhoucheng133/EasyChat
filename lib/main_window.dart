@@ -65,16 +65,17 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
           ),
         ),
         Expanded(
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 200),
-            child: Obx(()=>
-              u.loading.value ? Center(
+          child: Obx(()=>
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 200),
+              child: u.loading.value ? Center(
+                key: const Key("loading"),
                 child: LoadingAnimationWidget.beat(
                   color: Colors.yellow[700]!, 
                   size: 30
                 ),
-              ) : u.url.value.isEmpty ? const Login() : Container()
-            ),
+              ) : u.url.value.isEmpty ? const Login(key: Key("login"),) : Container(key: const Key("main"),)
+            )
           )
         )
       ],

@@ -1,3 +1,4 @@
+import 'package:easy_chat/funcs/requests.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,7 +19,7 @@ class UserVar extends GetxController{
     }
   }
 
-  void login(String urlInput, BuildContext context){
+  Future<void> login(String urlInput, BuildContext context) async {
     if(urlInput.isEmpty){
       showDialog(
         context: context, 
@@ -48,7 +49,28 @@ class UserVar extends GetxController{
         )
       );
     }else{
-      
+      if(await Requests().checkUrl(urlInput)){
+        if(loading.value){
+          loading.value=false;
+        }
+        url.value=urlInput;
+      }else{
+        if(context.mounted){
+          showDialog(
+            context: context, 
+            builder: (context)=>AlertDialog(
+              title: const Text('登录失败'),
+              content: const Text('请求URL地址失败'),
+              actions: [
+                ElevatedButton(
+                  onPressed: ()=>Navigator.pop(context), 
+                  child: const Text('好的')
+                )
+              ],
+            )
+          );
+        }
+      }
     }
   }
 }
