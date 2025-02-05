@@ -47,7 +47,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
           child: Row(
             children: [
               Expanded(child: DragToMoveArea(child: Container())),
-              Platform.isMacOS ? Row(
+              Platform.isWindows ? Row(
                 children: [
                   WindowCaptionButton.minimize(onPressed: () => windowManager.minimize(),),
                   isMax ? WindowCaptionButton.unmaximize(onPressed:() => windowManager.unmaximize(),) :
