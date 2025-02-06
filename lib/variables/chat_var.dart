@@ -16,6 +16,10 @@ class ChatItem{
 class ChatVar extends GetxController{
   // RxList<ChatList> chatList=<ChatList>[].obs;
   RxList<ChatItem> chatList=<ChatItem>[
-    ChatItem("123", "测试一个非常长的标题测试一个非常长的标题", [])
+    ChatItem("123", "测试一个非常长的标题测试一个非常长的标题", []),
+    ChatItem("124", "测试1", []),
+    ChatItem("125", "测试1", []),
+    ChatItem("126", "测试1", []),
+    ChatItem("127", "测试1", []),
   ].obs;
 }

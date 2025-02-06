@@ -1,4 +1,5 @@
 import 'package:easy_chat/variables/chat_var.dart';
+import 'package:easy_chat/variables/page_var.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -55,7 +56,7 @@ class _SideBarHeaderState extends State<SideBarHeader> {
                     height: 30,
                     width: 30,
                     decoration: BoxDecoration(
-                      color: onHover ? const Color.fromRGBO(255, 236, 179, 1) : const Color.fromRGBO(255, 236, 179, 0),
+                      color: onHover ? const Color.fromRGBO(255, 236, 179, 0.4) : const Color.fromRGBO(255, 236, 179, 0),
                       borderRadius: BorderRadius.circular(15)
                     ),
                     child: const Center(
@@ -93,13 +94,14 @@ class SideBarItem extends StatefulWidget {
 class _SideBarItemState extends State<SideBarItem> {
 
   final ChatVar c=Get.find();
+  final PageVar p=Get.find();
   bool onHover=false;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        // TODO 切换Chat
+        p.page.value=PageItem(c.chatList[widget.index].id, PageType.chat);
       },
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
@@ -113,30 +115,32 @@ class _SideBarItemState extends State<SideBarItem> {
             onHover=false;
           });
         },
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          height: 35,
-          decoration: BoxDecoration(
-            color: onHover ? const Color.fromRGBO(255, 236, 179, 0.7) : const Color.fromRGBO(255, 236, 179, 0),
-            borderRadius: BorderRadius.circular(5)
-          ),
-          child: Obx(()=>
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  c.chatList[widget.index].name,
-                  textAlign: TextAlign.left,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 13
+        child: Obx(()=>
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            height: 35,
+            decoration: BoxDecoration(
+              color: p.page.value.id==c.chatList[widget.index].id ? const Color.fromRGBO(255, 236, 179, 1) : onHover ? const Color.fromRGBO(255, 236, 179, 0.4) : const Color.fromRGBO(255, 236, 179, 0),
+              borderRadius: BorderRadius.circular(5)
+            ),
+            child: Obx(()=>
+              Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    c.chatList[widget.index].name,
+                    textAlign: TextAlign.left,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 13
+                    ),
                   ),
                 ),
-              ),
-            )
+              )
+            ),
           ),
-        ),
+        )
       ),
     );
   }

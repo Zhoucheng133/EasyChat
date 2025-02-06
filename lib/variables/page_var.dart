@@ -6,12 +6,12 @@ enum PageType{
   settings
 }
 
-class Page{
+class PageItem{
   late String id;
   late PageType type;
-  Page(this.id, this.type);
+  PageItem(this.id, this.type);
 }
 
 class PageVar extends GetxController{
-  Rx<Page> page=Page("", PageType.none).obs;
+  Rx<PageItem> page=PageItem("", PageType.none).obs;
 }

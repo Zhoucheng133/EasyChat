@@ -14,7 +14,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  final p=Get.put(PageVar());
+  final PageVar p=Get.put(PageVar());
 
   @override
   Widget build(BuildContext context) {
