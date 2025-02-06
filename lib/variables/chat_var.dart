@@ -8,8 +8,9 @@ class ChatMessage{
 
 class ChatList{
   late String id;
+  late String name;
   late List<ChatMessage> messages;
-  ChatList(this.id, this.messages);
+  ChatList(this.id, this.name, this.messages);
 }
 
 class ChatVar extends GetxController{
