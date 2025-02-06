@@ -8,8 +8,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
   WindowOptions windowOptions = const WindowOptions(
-    size: Size(900, 750),
-    minimumSize: Size(900, 750),
+    size: Size(900, 650),
+    minimumSize: Size(900, 650),
     center: true,
     backgroundColor: Colors.transparent,
     skipTaskbar: false,

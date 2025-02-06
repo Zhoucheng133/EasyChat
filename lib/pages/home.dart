@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
       child: Row(
         children: [
           const SizedBox(
-            width: 300,
+            width: 200,
             child: SideBar(),
           ),
           Expanded(
