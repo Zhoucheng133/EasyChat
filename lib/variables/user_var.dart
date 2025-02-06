@@ -53,6 +53,8 @@ class UserVar extends GetxController{
         if(loading.value){
           loading.value=false;
         }
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('url', urlInput);
         url.value=urlInput;
       }else{
         if(context.mounted){
