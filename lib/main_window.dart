@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_chat/pages/home.dart';
 import 'package:easy_chat/pages/login.dart';
 import 'package:easy_chat/variables/user_var.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +75,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   color: Colors.yellow[700]!, 
                   size: 30
                 ),
-              ) : u.url.value.isEmpty ? const Login(key: Key("login"),) : Container(key: const Key("main"),)
+              ) : u.url.value.isEmpty ? const Login(key: Key("login"),) : const Home(key: Key("main"),)
             )
           )
         )
