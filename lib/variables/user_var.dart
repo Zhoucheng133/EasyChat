@@ -57,6 +57,9 @@ class UserVar extends GetxController{
         await prefs.setString('url', urlInput);
         url.value=urlInput;
       }else{
+        if(loading.value){
+          loading.value=false;
+        }
         if(context.mounted){
           showDialog(
             context: context, 
