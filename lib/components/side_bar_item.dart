@@ -128,7 +128,7 @@ class _SideBarItemState extends State<SideBarItem> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    c.chatList[widget.index].name,
+                    c.chatList[widget.index].name??"未命名的对话",
                     textAlign: TextAlign.left,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
