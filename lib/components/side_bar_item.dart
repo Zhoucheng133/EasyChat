@@ -13,6 +13,7 @@ class SideBarHeader extends StatefulWidget {
 class _SideBarHeaderState extends State<SideBarHeader> {
 
   bool onHover=false;
+  final ChatVar c=Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +49,7 @@ class _SideBarHeaderState extends State<SideBarHeader> {
                   });
                 },
                 child: GestureDetector(
-                  onTap: (){
-                    // TODO 添加
-                  },
+                  onTap: ()=>c.addChat(context),
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
                     height: 30,
