@@ -30,7 +30,9 @@ class _SideBarState extends State<SideBar> {
                 itemBuilder: (context, int index)=>SideBarItem(index: index),
               )
             )
-          )
+          ),
+          const SizedBox(height: 5,),
+          const SideBarBottom()
         ],
       ),
     );

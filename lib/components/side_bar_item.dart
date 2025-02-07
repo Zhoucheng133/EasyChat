@@ -119,7 +119,7 @@ class _SideBarItemState extends State<SideBarItem> {
             duration: const Duration(milliseconds: 200),
             height: 35,
             decoration: BoxDecoration(
-              color: p.page.value.id==c.chatList[widget.index].id ? const Color.fromRGBO(255, 236, 179, 1) : onHover ? const Color.fromRGBO(255, 236, 179, 0.4) : const Color.fromRGBO(255, 236, 179, 0),
+              color: p.page.value.id==c.chatList[widget.index].id ? const Color.fromRGBO(255, 236, 179, 1) : onHover ? const Color.fromRGBO(255, 236, 179, 0.5) : const Color.fromRGBO(255, 236, 179, 0),
               borderRadius: BorderRadius.circular(5)
             ),
             child: Obx(()=>
@@ -141,6 +141,99 @@ class _SideBarItemState extends State<SideBarItem> {
           ),
         )
       ),
+    );
+  }
+}
+
+class SideBarBottom extends StatefulWidget {
+  const SideBarBottom({super.key});
+
+  @override
+  State<SideBarBottom> createState() => _SideBarBottomState();
+}
+
+class _SideBarBottomState extends State<SideBarBottom> {
+
+  bool hoverSettings=false;
+  bool hoverExit=false;
+  final PageVar p=Get.find();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: GestureDetector(
+            onTap: (){
+              p.page.value=PageItem("", PageType.settings);
+            },
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              onEnter: (_){
+                setState(() {
+                  hoverSettings=true;
+                });
+              },
+              onExit: (_){
+                setState(() {
+                  hoverSettings=false;
+                });
+              },
+              child: Obx(()=>
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  height: 35,
+                  decoration: BoxDecoration(
+                    color: p.page.value.type==PageType.settings ? const Color.fromRGBO(255, 236, 179, 1) : hoverSettings ? const Color.fromRGBO(255, 236, 179, 0.5) : const Color.fromRGBO(255, 236, 179, 0),
+                    borderRadius: BorderRadius.circular(5)
+                  ),
+                  child: const Center(
+                    child: Icon(
+                      Icons.settings_rounded,
+                      size: 16,
+                    ),
+                  ),
+                ),
+              )
+            ),
+          )
+        ),
+        const SizedBox(width: 10,),
+        Expanded(
+          child: GestureDetector(
+            onTap: (){
+              
+            },
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              onEnter: (_){
+                setState(() {
+                  hoverExit=true;
+                });
+              },
+              onExit: (_){
+                setState(() {
+                  hoverExit=false;
+                });
+              },
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                height: 35,
+                decoration: BoxDecoration(
+                  color: hoverExit ? const Color.fromRGBO(255, 236, 179, 0.5) : const Color.fromRGBO(255, 236, 179, 0),
+                  borderRadius: BorderRadius.circular(5)
+                ),
+                child: const Center(
+                  child: Icon(
+                    Icons.logout_rounded,
+                    size: 16,
+                  ),
+                ),
+              ),
+            ),
+          )
+        )
+      ],
     );
   }
 }
