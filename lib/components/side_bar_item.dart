@@ -1,5 +1,6 @@
 import 'package:easy_chat/variables/chat_var.dart';
 import 'package:easy_chat/variables/page_var.dart';
+import 'package:easy_chat/variables/user_var.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -202,7 +203,24 @@ class _SideBarBottomState extends State<SideBarBottom> {
         Expanded(
           child: GestureDetector(
             onTap: (){
-              
+              showDialog(
+                context: context, 
+                builder: (context)=>AlertDialog(
+                  title: const Text('退出当前连接'),
+                  content: const Text('这会回到初始页面'),
+                  actions: [
+                    TextButton(onPressed: ()=>Navigator.pop(context), child: const Text('取消')),
+                    ElevatedButton(
+                      onPressed: (){
+                        final UserVar u=Get.find();
+                        u.url.value='';
+                        Navigator.pop(context);
+                      }, 
+                      child: const Text('继续')
+                    )
+                  ],
+                )
+              );
             },
             child: MouseRegion(
               cursor: SystemMouseCursors.click,
