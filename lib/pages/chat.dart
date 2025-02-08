@@ -105,7 +105,7 @@ class _ChatState extends State<Chat> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: hasFocus ? Colors.amber[300]! : Colors.grey[300]!,
+                  color: hasFocus ? Colors.amber : Colors.grey[300]!,
                   width: hasFocus ? 2 : 1
                 )
               ),
