@@ -17,8 +17,25 @@ class _ChatState extends State<Chat> {
   final PageVar p=Get.find();
   final FocusNode input=FocusNode();
   final TextEditingController controller=TextEditingController();
+  bool hasFocus=false;
 
   String? selectedModel;
+
+  @override
+  void initState() {
+    super.initState();
+    input.addListener((){
+      setState(() {
+        hasFocus=input.hasFocus;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    input.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,8 +105,8 @@ class _ChatState extends State<Chat> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: Colors.grey[500]!,
-                  width: 1
+                  color: hasFocus ? Colors.amber[300]! : Colors.grey[300]!,
+                  width: hasFocus ? 2 : 1
                 )
               ),
               child: Obx(()=>
