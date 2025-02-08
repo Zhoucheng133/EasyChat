@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_chat/variables/chat_var.dart';
 import 'package:easy_chat/variables/page_var.dart';
 import 'package:flutter/material.dart';
@@ -14,13 +15,117 @@ class _ChatState extends State<Chat> {
 
   final ChatVar c=Get.find();
   final PageVar p=Get.find();
+  final FocusNode input=FocusNode();
+  final TextEditingController controller=TextEditingController();
+
+  String? selectedModel;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Expanded(
-          child: Container(),
+          child: Obx(()=>
+            c.noModel() ? Center(
+              child: SizedBox(
+                width: 300,
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton2(
+                    dropdownStyleData: const DropdownStyleData(
+                      decoration: BoxDecoration(
+                        color: Colors.white
+                      )
+                    ),
+                    buttonStyleData: ButtonStyleData(
+                      padding: const EdgeInsets.only(right: 14),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(
+                          color: Colors.black26,
+                        ),
+                      ),
+                    ),
+                    isExpanded: true,
+                    hint: Text(
+                      '选择模型',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Theme.of(context).hintColor,
+                      )
+                    ),
+                    items: c.models.map((item) => DropdownMenuItem(
+                        value: item.id,
+                        child: Text(
+                          item.id,
+                          style: const TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
+                      )
+                    ).toList(),
+                    value: selectedModel,
+                    onChanged: (value){
+                      if(value!=null){
+                        setState((){
+                          selectedModel=value;
+                        });
+                        c.chatList[p.page.value.index??0].model=selectedModel;
+                      }
+                    },
+                  )
+                ),
+              ),
+            ) : Container()
+          )
+        ),
+        Padding(
+          padding: const EdgeInsets.all(15),
+          child: SizedBox(
+            height: 45,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: Colors.grey[500]!,
+                  width: 1
+                )
+              ),
+              child: Obx(()=>
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: controller,
+                        focusNode: input,
+                        enabled: !c.noModel(),
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(borderSide: BorderSide.none),
+                          hintText: c.noModel() ? '没有选择模型' : ''
+                        ),
+                        autocorrect: false,
+                        enableSuggestions: false,
+                        style: const TextStyle(
+                          fontSize: 14
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: c.noModel() ? null : (){
+                        // TODO Send!
+                      }, 
+                      icon: const Icon(
+                        Icons.send_rounded,
+                        size: 20,
+                      )
+                    ),
+                    const SizedBox(width: 5,),
+                  ],
+                ),
+              )
+            ),
+          ),
         )
       ],
     );
