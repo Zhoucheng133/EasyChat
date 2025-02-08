@@ -12,7 +12,7 @@ class SideBar extends StatefulWidget {
 
 class _SideBarState extends State<SideBar> {
 
-  final ChatVar c=Get.put(ChatVar());
+  final ChatVar c=Get.find();
 
   @override
   Widget build(BuildContext context) {

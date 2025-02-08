@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:easy_chat/pages/home.dart';
 import 'package:easy_chat/pages/login.dart';
+import 'package:easy_chat/variables/chat_var.dart';
+import 'package:easy_chat/variables/page_var.dart';
 import 'package:easy_chat/variables/user_var.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,6 +29,8 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
 
   bool isMax=false;
   final UserVar u=Get.put(UserVar());
+  final ChatVar c=Get.put(ChatVar());
+  final PageVar p=Get.put(PageVar());
 
   @override
   void onWindowMaximize() {

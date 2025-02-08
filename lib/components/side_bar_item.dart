@@ -101,7 +101,7 @@ class _SideBarItemState extends State<SideBarItem> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        p.page.value=PageItem(c.chatList[widget.index].id, PageType.chat);
+        p.page.value=PageItem(widget.index, PageType.chat);
       },
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
@@ -120,7 +120,7 @@ class _SideBarItemState extends State<SideBarItem> {
             duration: const Duration(milliseconds: 200),
             height: 35,
             decoration: BoxDecoration(
-              color: p.page.value.id==c.chatList[widget.index].id ? const Color.fromRGBO(255, 236, 179, 1) : onHover ? const Color.fromRGBO(255, 236, 179, 0.5) : const Color.fromRGBO(255, 236, 179, 0),
+              color: p.page.value.index==widget.index ? const Color.fromRGBO(255, 236, 179, 1) : onHover ? const Color.fromRGBO(255, 236, 179, 0.5) : const Color.fromRGBO(255, 236, 179, 0),
               borderRadius: BorderRadius.circular(5)
             ),
             child: Obx(()=>
@@ -166,7 +166,7 @@ class _SideBarBottomState extends State<SideBarBottom> {
         Expanded(
           child: GestureDetector(
             onTap: (){
-              p.page.value=PageItem("", PageType.settings);
+              p.page.value=PageItem(null, PageType.settings);
             },
             child: MouseRegion(
               cursor: SystemMouseCursors.click,
