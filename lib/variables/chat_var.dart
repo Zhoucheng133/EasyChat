@@ -1,22 +1,10 @@
 import 'package:easy_chat/funcs/requests.dart';
+import 'package:easy_chat/variables/chat_item.dart';
 import 'package:easy_chat/variables/page_var.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
 
-class ChatMessage{
-  late String role;
-  late String content;
-  ChatMessage(this.role, this.content);
-}
-
-class ChatItem{
-  late String id;
-  late String? name;
-  late String? model;
-  late List<ChatMessage> messages;
-  ChatItem(this.id, this.name, this.model, this.messages);
-}
 
 class ChatVar extends GetxController{
   RxList<ChatItem> chatList=<ChatItem>[].obs;

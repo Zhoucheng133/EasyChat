@@ -130,7 +130,7 @@ class _ChatState extends State<Chat> {
                     ),
                     IconButton(
                       onPressed: c.noModel() ? null : (){
-                        // TODO Send!
+                        c.chatList[p.page.value.index??0].doChat(controller.text);
                       }, 
                       icon: const Icon(
                         Icons.send_rounded,
