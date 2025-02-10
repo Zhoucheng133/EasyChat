@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:easy_chat/variables/chat_item.dart';
 import 'package:easy_chat/variables/chat_var.dart';
 import 'package:easy_chat/variables/page_var.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +20,10 @@ class _ChatState extends State<Chat> {
   final PageVar p=Get.find();
   final FocusNode input=FocusNode();
   final TextEditingController controller=TextEditingController();
+  late Worker loadingListener;
+  final ScrollController listController=ScrollController();
   bool hasFocus=false;
+  late Timer timer;
 
   String? selectedModel;
 
@@ -29,11 +35,30 @@ class _ChatState extends State<Chat> {
         hasFocus=input.hasFocus;
       });
     });
+    loadingListener=ever(c.loading, (val){
+      // print("<---->");
+      if(val){
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          listController.animateTo(listController.position.maxScrollExtent, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+        });
+        timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+          listController.animateTo(listController.position.maxScrollExtent, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+        });
+      }else{
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          listController.animateTo(listController.position.maxScrollExtent, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+        });
+        try {
+          timer.cancel();
+        } catch (_) {}
+      }
+    });
   }
 
   @override
   void dispose() {
     input.dispose();
+    loadingListener.dispose();
     super.dispose();
   }
 
@@ -92,13 +117,32 @@ class _ChatState extends State<Chat> {
                   )
                 ),
               ),
-            ) : ListView.builder(
-              // itemBuilder: (context)=>
-              itemCount: c.chatList[p.page.value.index??0].messages.length,
-              itemBuilder: (context, index)=>Text(
-                c.chatList[p.page.value.index??0].messages[index].content,
-                // textAlign: c.chatList[p.page.value.index??0].messages[index].role==RoleEnum.user,
-
+            ) : Padding(
+              padding: const EdgeInsets.all(10),
+              child: Scrollbar(
+                controller: listController,
+                child: ListView.builder(
+                  controller: listController,
+                  itemCount: c.chatList[c.nowIndex()].messages.length,
+                  itemBuilder: (context, index)=>Padding(
+                    padding: const EdgeInsets.only(top: 5, bottom: 5),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: c.chatList[c.nowIndex()].messages[index].role==RoleEnum.user ? Colors.amber[700] : Colors.grey[50],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          c.chatList[c.nowIndex()].messages[index].content,
+                          style: TextStyle(
+                            color: c.chatList[c.nowIndex()].messages[index].role==RoleEnum.user ? Colors.white : Colors.black
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
             )
           )
@@ -134,11 +178,25 @@ class _ChatState extends State<Chat> {
                         style: const TextStyle(
                           fontSize: 14
                         ),
+                        onEditingComplete: (){
+                          if(controller.text.isNotEmpty){
+                            c.doChat(controller.text);
+                            setState(() {
+                              controller.text="";
+                            });
+                          }
+                        },
                       ),
                     ),
                     IconButton(
                       onPressed: c.noModel() ? null : (){
+                        if(controller.text.isEmpty){
+                          return;
+                        }
                         c.doChat(controller.text);
+                        setState(() {
+                          controller.text="";
+                        });
                       }, 
                       icon: const Icon(
                         Icons.send_rounded,

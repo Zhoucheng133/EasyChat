@@ -9,6 +9,7 @@ import 'package:uuid/uuid.dart';
 class ChatVar extends GetxController{
   RxList<ChatItem> chatList=<ChatItem>[].obs;
   RxList<ModelItem> models=<ModelItem>[].obs;
+  RxBool loading=false.obs;
 
   var uuid = const Uuid();
 
@@ -24,6 +25,12 @@ class ChatVar extends GetxController{
   void doChat(String content){
     chatList[nowIndex()].doChat(content, (){
       chatList.refresh();
+      // print(chatList[nowIndex()].messages.last.content);
+      if(!loading.value){
+        loading.value=true;
+      }
+    }, (){
+      loading.value=false;
     });
   }
 

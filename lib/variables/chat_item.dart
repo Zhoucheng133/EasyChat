@@ -37,7 +37,7 @@ class ChatItem{
     return ls;
   }
 
-  Future<void> doChat(String content, Function updateCallback) async {
+  Future<void> doChat(String content, Function updateCallback, Function updateOk) async {
     if(model==null){
       return;
     }
@@ -52,7 +52,6 @@ class ChatItem{
       "max_tokens": -1,
       "stream": true
     };
-    // print(requestBody);
     request.headers.addAll({
       "Content-Type": "application/json",
     });
@@ -75,7 +74,7 @@ class ChatItem{
         }
       } catch (_) {}
     }, onDone: () {
-      // TODO 结束
+      updateOk();
     }, onError: (error) {});
   }
 }
