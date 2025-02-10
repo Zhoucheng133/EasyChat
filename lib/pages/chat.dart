@@ -28,6 +28,12 @@ class _ChatState extends State<Chat> {
 
   String? selectedModel;
 
+  void scrollBottom(){
+    try {
+      listController.animateTo(listController.position.maxScrollExtent, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+    } catch (_) {}
+  }
+
   @override
   void initState() {
     super.initState();
@@ -40,14 +46,14 @@ class _ChatState extends State<Chat> {
       // print("<---->");
       if(val){
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          listController.animateTo(listController.position.maxScrollExtent, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+          scrollBottom();
         });
         timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-          listController.animateTo(listController.position.maxScrollExtent, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+          scrollBottom();
         });
       }else{
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          listController.animateTo(listController.position.maxScrollExtent, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+          scrollBottom();
         });
         try {
           timer.cancel();
