@@ -22,6 +22,15 @@ class ChatVar extends GetxController{
     return p.page.value.index??0;
   }
 
+  void abort(){
+    if(loading.value){
+      chatList[nowIndex()].abort((){
+        loading.value=false;
+        chatList.refresh();
+      });
+    }
+  }
+
   void doChat(String content){
     if(chatList[nowIndex()].name==null){
       chatList[nowIndex()].name=content;

@@ -192,7 +192,7 @@ class _ChatState extends State<Chat> {
                           fontSize: 14
                         ),
                         onEditingComplete: (){
-                          if(controller.text.isNotEmpty){
+                          if(controller.text.isNotEmpty && !c.loading.value){
                             c.doChat(controller.text);
                             setState(() {
                               controller.text="";
@@ -201,7 +201,13 @@ class _ChatState extends State<Chat> {
                         },
                       ),
                     ),
-                    IconButton(
+                    c.loading.value ? IconButton(
+                      onPressed: ()=>c.abort(),
+                      icon: const Icon(
+                        Icons.stop_rounded,
+                        size: 20,
+                      )
+                    ) : IconButton(
                       onPressed: c.noModel() ? null : (){
                         if(controller.text.isEmpty){
                           return;

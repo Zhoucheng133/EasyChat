@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:easy_chat/variables/user_var.dart';
@@ -29,12 +30,21 @@ class ChatItem{
   late List<ChatMessage> messages;
   ChatItem(this.id, this.name, this.model, this.messages);
 
+  StreamSubscription<String>? subscription;
+
   List<Map> toMap(){
     List<Map> ls=[];
     for (var element in messages) {
       ls.add(element.toMap());
     }
     return ls;
+  }
+
+  void abort(Function abortOk){
+    try {
+      subscription?.cancel();
+      abortOk();
+    } catch (_) {}
   }
 
   Future<void> doChat(String content, Function updateCallback, Function updateOk) async {
@@ -57,7 +67,7 @@ class ChatItem{
     });
     request.body = jsonEncode(requestBody);
     final response = await http.Client().send(request);
-    response.stream
+    subscription=response.stream
     .transform(utf8.decoder)
     .transform(const LineSplitter())
     .listen((line) {
