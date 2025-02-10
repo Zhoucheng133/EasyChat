@@ -6,6 +6,7 @@ import 'package:easy_chat/variables/chat_var.dart';
 import 'package:easy_chat/variables/page_var.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gpt_markdown/gpt_markdown.dart';
 
 class Chat extends StatefulWidget {
   const Chat({super.key});
@@ -133,7 +134,13 @@ class _ChatState extends State<Chat> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(10),
-                        child: Text(
+                        // child: Text(
+                        //   c.chatList[c.nowIndex()].messages[index].content,
+                        //   style: TextStyle(
+                        //     color: c.chatList[c.nowIndex()].messages[index].role==RoleEnum.user ? Colors.white : Colors.black
+                        //   ),
+                        // ),
+                        child: GptMarkdown(
                           c.chatList[c.nowIndex()].messages[index].content,
                           style: TextStyle(
                             color: c.chatList[c.nowIndex()].messages[index].role==RoleEnum.user ? Colors.white : Colors.black
