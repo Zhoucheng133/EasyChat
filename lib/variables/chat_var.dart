@@ -13,8 +13,18 @@ class ChatVar extends GetxController{
   var uuid = const Uuid();
 
   bool noModel(){
+    return chatList[nowIndex()].model==null;
+  }
+
+  int nowIndex(){
     final PageVar p=Get.find();
-    return chatList[p.page.value.index??0].model==null;
+    return p.page.value.index??0;
+  }
+
+  void doChat(String content){
+    chatList[nowIndex()].doChat(content, (){
+      chatList.refresh();
+    });
   }
 
   Future<void> addChat(BuildContext context) async {

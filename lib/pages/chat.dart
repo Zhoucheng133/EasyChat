@@ -92,7 +92,15 @@ class _ChatState extends State<Chat> {
                   )
                 ),
               ),
-            ) : Container()
+            ) : ListView.builder(
+              // itemBuilder: (context)=>
+              itemCount: c.chatList[p.page.value.index??0].messages.length,
+              itemBuilder: (context, index)=>Text(
+                c.chatList[p.page.value.index??0].messages[index].content,
+                // textAlign: c.chatList[p.page.value.index??0].messages[index].role==RoleEnum.user,
+
+              ),
+            )
           )
         ),
         Padding(
@@ -130,7 +138,7 @@ class _ChatState extends State<Chat> {
                     ),
                     IconButton(
                       onPressed: c.noModel() ? null : (){
-                        c.chatList[p.page.value.index??0].doChat(controller.text);
+                        c.doChat(controller.text);
                       }, 
                       icon: const Icon(
                         Icons.send_rounded,
