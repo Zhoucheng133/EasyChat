@@ -23,6 +23,10 @@ class ChatVar extends GetxController{
   }
 
   void doChat(String content){
+    if(chatList[nowIndex()].name==null){
+      chatList[nowIndex()].name=content;
+      chatList.refresh();
+    }
     chatList[nowIndex()].doChat(content, (){
       chatList.refresh();
       // print(chatList[nowIndex()].messages.last.content);
