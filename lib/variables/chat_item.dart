@@ -16,7 +16,7 @@ class ChatMessage{
 
   Map toMap(){
     return {
-      "role": role==RoleEnum.bot?"bot":"user",
+      "role": role==RoleEnum.bot?"assistant":"user",
       "content": content,
     };
   }
