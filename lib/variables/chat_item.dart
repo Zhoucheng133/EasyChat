@@ -66,7 +66,7 @@ class ChatItem{
         Map data=jsonDecode(line.substring(5));
         if(data['choices'][0]['delta']['content']!=null){
           String text=data['choices'][0]['delta']['content'];
-          if(messages[messages.length-1].role==RoleEnum.bot){
+          if(messages.last.role==RoleEnum.user){
             messages.add(ChatMessage(RoleEnum.bot, text));
           }else{
             messages[messages.length-1].content=messages[messages.length-1].content+text;
