@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:easy_chat/funcs/dialogs.dart';
 import 'package:easy_chat/pages/home.dart';
 import 'package:easy_chat/pages/login.dart';
 import 'package:easy_chat/variables/chat_var.dart';
 import 'package:easy_chat/variables/page_var.dart';
 import 'package:easy_chat/variables/user_var.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:window_manager/window_manager.dart';
@@ -31,6 +33,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
   final UserVar u=Get.put(UserVar());
   final ChatVar c=Get.put(ChatVar());
   final PageVar p=Get.put(PageVar());
+  final Dialogs dialogs=Dialogs();
 
   @override
   void onWindowMaximize() {
@@ -82,7 +85,106 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
               ) : u.url.value.isEmpty ? const Login(key: Key("login"),) : const Home(key: Key("main"),)
             )
           )
-        )
+        ),
+        Platform.isMacOS ? Obx(()=>
+          PlatformMenuBar(
+            menus: [
+              PlatformMenu(
+                label: 'EasyChat', 
+                menus: [
+                  PlatformMenuItemGroup(
+                    members: [
+                      PlatformMenuItem(
+                        label: "关于 EasyChat",
+                        onSelected: (){
+                          dialogs.showAbout(context);
+                        }
+                      ),
+                      PlatformMenuItemGroup(
+                        members: [
+                          PlatformMenuItem(
+                            label: "设置...",
+                            shortcut: const SingleActivator(
+                              LogicalKeyboardKey.comma,
+                              meta: true,
+                            ),
+                            onSelected: u.url.value.isNotEmpty ? (){
+                              p.page.value=PageItem(null, PageType.settings);
+                            } : null,
+                          ),
+                        ]
+                      ),
+                      const PlatformMenuItemGroup(
+                        members: [
+                          PlatformProvidedMenuItem(
+                            enabled: true,
+                            type: PlatformProvidedMenuItemType.hide,
+                          ),
+                          PlatformProvidedMenuItem(
+                            enabled: true,
+                            type: PlatformProvidedMenuItemType.quit,
+                          ),
+                        ]
+                      )
+                    ]
+                  ),
+                ]
+              ),
+              PlatformMenu(
+                label: '编辑', 
+                menus: [
+                  PlatformMenuItem(
+                    label: "复制",
+                    shortcut: const SingleActivator(
+                      LogicalKeyboardKey.keyC,
+                      meta: true
+                    ),
+                    onSelected: (){
+
+                    }
+                  ),
+                  PlatformMenuItem(
+                    label: "粘贴",
+                    shortcut: const SingleActivator(
+                      LogicalKeyboardKey.keyV,
+                      meta: true
+                    ),
+                    onSelected: (){
+
+                    }
+                  ),
+                  PlatformMenuItem(
+                    label: "全选",
+                    shortcut: const SingleActivator(
+                      LogicalKeyboardKey.keyA,
+                      meta: true
+                    ),
+                    onSelected: (){
+
+                    }
+                  ),
+                ]
+              ),
+              const PlatformMenu(
+                label: "窗口", 
+                menus: [
+                  PlatformMenuItemGroup(
+                    members: [
+                      PlatformProvidedMenuItem(
+                        enabled: true,
+                        type: PlatformProvidedMenuItemType.minimizeWindow,
+                      ),
+                      PlatformProvidedMenuItem(
+                        enabled: true,
+                        type: PlatformProvidedMenuItemType.toggleFullScreen,
+                      )
+                    ]
+                  )
+                ]
+              )
+            ]
+          )
+        ) : Container()
       ],
     );
   }
