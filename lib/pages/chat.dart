@@ -30,7 +30,9 @@ class _ChatState extends State<Chat> {
 
   void scrollBottom(){
     try {
-      listController.animateTo(listController.position.maxScrollExtent, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        listController.animateTo(listController.position.maxScrollExtent, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+      });
     } catch (_) {}
   }
 
@@ -45,16 +47,12 @@ class _ChatState extends State<Chat> {
     loadingListener=ever(c.loading, (val){
       // print("<---->");
       if(val){
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          scrollBottom();
-        });
+        scrollBottom();
         timer = Timer.periodic(const Duration(seconds: 1), (timer) {
           scrollBottom();
         });
       }else{
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          scrollBottom();
-        });
+        scrollBottom();
         try {
           timer.cancel();
         } catch (_) {}
