@@ -1,5 +1,6 @@
 import 'package:easy_chat/funcs/dialogs.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -33,7 +34,7 @@ class _SettingsState extends State<Settings> {
           },
           child: AnimatedDefaultTextStyle(
             duration: const Duration(milliseconds: 200),
-            style: TextStyle(
+            style: GoogleFonts.notoSansSc(
               color: hoverAbout ? Colors.amber[700] : Colors.black
             ),
             child: const Text("关于 EasyChat")
