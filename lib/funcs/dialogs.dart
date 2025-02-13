@@ -6,6 +6,29 @@ import 'package:url_launcher/url_launcher.dart';
 
 class Dialogs {
 
+  void showCancelOk(BuildContext context, String title, String content, Function func){
+    showDialog(
+      context: context, 
+      builder: (context)=>AlertDialog(
+        title: Text(title),
+        content: Text(content),
+        actions: [
+          TextButton(
+            onPressed: ()=>Navigator.pop(context), 
+            child: const Text('取消')
+          ),
+          ElevatedButton(
+            onPressed: (){
+              func();
+              Navigator.pop(context);
+            }, 
+            child: const Text('继续')
+          )
+        ],
+      )
+    );
+  }
+
   void showErr(BuildContext context, String title, String content){
     showDialog(
       context: context, 

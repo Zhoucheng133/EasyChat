@@ -101,6 +101,7 @@ class _SideBarItemState extends State<SideBarItem> {
 
   final ChatVar c=Get.find();
   final PageVar p=Get.find();
+  final Dialogs dialogs=Dialogs();
   bool onHover=false;
 
   void showRenameDialog(BuildContext context, int index){
@@ -148,7 +149,7 @@ class _SideBarItemState extends State<SideBarItem> {
                 c.chatList.refresh();
                 Navigator.pop(context);
               }else{
-                Dialogs().showErr(context, '重命名失败', '对话名称不能为空');
+                dialogs.showErr(context, '重命名失败', '对话名称不能为空');
               }
             }, 
             child: const Text('完成')
@@ -156,6 +157,13 @@ class _SideBarItemState extends State<SideBarItem> {
         ]
       ),
     );
+  }
+
+  void delChatHandler(int index){
+    if(index==p.page.value.index){
+      p.page.value=PageItem(null, PageType.none);
+    }
+    c.chatList.removeAt(index);
   }
 
   Future<void> showChatMenu(BuildContext context, TapDownDetails details, int index) async {
@@ -210,7 +218,9 @@ class _SideBarItemState extends State<SideBarItem> {
         showRenameDialog(context, index);
       }
     }else{
-      // TODO 删除
+      if(context.mounted){
+        dialogs.showCancelOk(context, '确定要删除这个对话吗', '这个操作无法撤销', ()=>delChatHandler(index));
+      }
     }
   }
 
