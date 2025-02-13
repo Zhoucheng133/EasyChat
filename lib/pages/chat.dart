@@ -45,7 +45,6 @@ class _ChatState extends State<Chat> {
       });
     });
     loadingListener=ever(c.loading, (val){
-      // print("<---->");
       if(val){
         scrollBottom();
         timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -138,12 +137,6 @@ class _ChatState extends State<Chat> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(10),
-                        // child: Text(
-                        //   c.chatList[c.nowIndex()].messages[index].content,
-                        //   style: TextStyle(
-                        //     color: c.chatList[c.nowIndex()].messages[index].role==RoleEnum.user ? Colors.white : Colors.black
-                        //   ),
-                        // ),
                         child: GptMarkdown(
                           c.chatList[c.nowIndex()].messages[index].content,
                           style: TextStyle(
