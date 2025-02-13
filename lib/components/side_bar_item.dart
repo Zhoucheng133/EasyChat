@@ -91,11 +91,69 @@ class SideBarItem extends StatefulWidget {
   State<SideBarItem> createState() => _SideBarItemState();
 }
 
+enum ChatMenuItem{
+  del,
+  rename
+}
+
 class _SideBarItemState extends State<SideBarItem> {
 
   final ChatVar c=Get.find();
   final PageVar p=Get.find();
   bool onHover=false;
+
+  Future<void> showChatMenu(BuildContext context, TapDownDetails details) async {
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+    final Offset position = overlay.localToGlobal(details.globalPosition);
+    final val=await showMenu(
+      context: context, 
+      position: RelativeRect.fromLTRB(
+        position.dx,
+        position.dy,
+        position.dx + 50,
+        position.dy + 50,
+      ), 
+      items: [
+        PopupMenuItem(
+          value: ChatMenuItem.rename,
+          height: 35,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.edit_rounded,
+                size: 18,
+              ),
+              const SizedBox(width: 5,),
+              Text("rename".tr)
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: ChatMenuItem.del,
+          height: 35,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.delete_rounded,
+                size: 18,
+              ),
+              const SizedBox(width: 5,),
+              Text("rename".tr)
+            ],
+          ),
+        ),
+      ],
+    );
+    if(val==ChatMenuItem.rename){
+      // TODO 重命名
+    }else{
+      // TODO 删除
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +161,7 @@ class _SideBarItemState extends State<SideBarItem> {
       onTap: (){
         p.page.value=PageItem(widget.index, PageType.chat);
       },
+      onSecondaryTapDown: (val)=>showChatMenu(context, val),
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         onEnter: (_){
