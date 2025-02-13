@@ -217,7 +217,7 @@ class _SideBarItemState extends State<SideBarItem> {
       if(context.mounted){
         showRenameDialog(context, index);
       }
-    }else{
+    }else if(val==ChatMenuItem.del){
       if(context.mounted){
         dialogs.showCancelOk(context, '确定要删除这个对话吗', '这个操作无法撤销', ()=>delChatHandler(index));
       }
