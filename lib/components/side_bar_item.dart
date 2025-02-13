@@ -1,3 +1,4 @@
+import 'package:easy_chat/funcs/dialogs.dart';
 import 'package:easy_chat/variables/chat_var.dart';
 import 'package:easy_chat/variables/page_var.dart';
 import 'package:easy_chat/variables/user_var.dart';
@@ -102,7 +103,62 @@ class _SideBarItemState extends State<SideBarItem> {
   final PageVar p=Get.find();
   bool onHover=false;
 
-  Future<void> showChatMenu(BuildContext context, TapDownDetails details) async {
+  void showRenameDialog(BuildContext context, int index){
+    final controller=TextEditingController();
+    showDialog(
+      context: context, 
+      builder: (BuildContext context)=>AlertDialog(
+        title: const Text('重命名'),
+        content: StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) => SizedBox(
+            width: 200,
+            child: TextField(
+              controller: controller,
+              decoration: InputDecoration(
+                isCollapsed: true,
+                contentPadding: const EdgeInsets.all(12),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey[300]!, width: 1.0),
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.amber, width: 2.0),
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                hintText: '输入新的对话名称',
+                hintStyle: TextStyle(
+                  color: Colors.grey[300]
+                )
+              ),
+              style: const TextStyle(
+                fontSize: 14,
+              ),
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: ()=>Navigator.pop(context), 
+            child: const Text('取消')
+          ),
+          ElevatedButton(
+            onPressed: (){
+              if(controller.text.isNotEmpty){
+                c.chatList[index].name=controller.text;
+                c.chatList.refresh();
+                Navigator.pop(context);
+              }else{
+                Dialogs().showErr(context, '重命名失败', '对话名称不能为空');
+              }
+            }, 
+            child: const Text('完成')
+          )
+        ]
+      ),
+    );
+  }
+
+  Future<void> showChatMenu(BuildContext context, TapDownDetails details, int index) async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
     final Offset position = overlay.localToGlobal(details.globalPosition);
     final val=await showMenu(
@@ -150,7 +206,9 @@ class _SideBarItemState extends State<SideBarItem> {
       ],
     );
     if(val==ChatMenuItem.rename){
-      // TODO 重命名
+      if(context.mounted){
+        showRenameDialog(context, index);
+      }
     }else{
       // TODO 删除
     }
@@ -162,7 +220,7 @@ class _SideBarItemState extends State<SideBarItem> {
       onTap: (){
         p.page.value=PageItem(widget.index, PageType.chat);
       },
-      onSecondaryTapDown: (val)=>showChatMenu(context, val),
+      onSecondaryTapDown: (val)=>showChatMenu(context, val, widget.index),
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         onEnter: (_){

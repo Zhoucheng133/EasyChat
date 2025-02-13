@@ -5,6 +5,22 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Dialogs {
+
+  void showErr(BuildContext context, String title, String content){
+    showDialog(
+      context: context, 
+      builder: (context)=>AlertDialog(
+        title: Text(title),
+        content: Text(content),
+        actions: [
+          ElevatedButton(
+            onPressed: ()=>Navigator.pop(context), 
+            child: const Text('好的')
+          )
+        ],
+      )
+    );
+  }
   
   Future<void> showAbout(BuildContext context) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
