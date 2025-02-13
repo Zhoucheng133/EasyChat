@@ -113,36 +113,37 @@ class _SideBarItemState extends State<SideBarItem> {
         position.dx + 50,
         position.dy + 50,
       ), 
+      color: Colors.white,
       items: [
-        PopupMenuItem(
+        const PopupMenuItem(
           value: ChatMenuItem.rename,
           height: 35,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Icon(
+              Icon(
                 Icons.edit_rounded,
                 size: 18,
               ),
-              const SizedBox(width: 5,),
-              Text("rename".tr)
+              SizedBox(width: 5,),
+              Text("重命名")
             ],
           ),
         ),
-        PopupMenuItem(
+        const PopupMenuItem(
           value: ChatMenuItem.del,
           height: 35,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Icon(
+              Icon(
                 Icons.delete_rounded,
                 size: 18,
               ),
-              const SizedBox(width: 5,),
-              Text("rename".tr)
+              SizedBox(width: 5,),
+              Text("删除")
             ],
           ),
         ),
