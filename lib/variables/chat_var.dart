@@ -11,6 +11,10 @@ class ChatVar extends GetxController{
   RxList<ModelItem> models=<ModelItem>[].obs;
   RxBool loading=false.obs;
 
+  Future<void> init() async {
+    // TODO 初始化对话列表
+  }
+
   var uuid = const Uuid();
 
   bool noModel(){
