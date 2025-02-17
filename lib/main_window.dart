@@ -5,6 +5,7 @@ import 'package:easy_chat/pages/home.dart';
 import 'package:easy_chat/pages/login.dart';
 import 'package:easy_chat/variables/chat_var.dart';
 import 'package:easy_chat/variables/page_var.dart';
+import 'package:easy_chat/variables/settings_var.dart';
 import 'package:easy_chat/variables/user_var.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,6 +27,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
     windowManager.addListener(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       u.init(context);
+      
     });
   }
 
@@ -33,6 +35,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
   final UserVar u=Get.put(UserVar());
   final ChatVar c=Get.put(ChatVar());
   final PageVar p=Get.put(PageVar());
+  final SettingsVar s=Get.put(SettingsVar());
   final Dialogs dialogs=Dialogs();
 
   @override

@@ -5,6 +5,7 @@ import 'package:easy_chat/variables/settings_var.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -16,7 +17,7 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
 
   final dialogs=Dialogs();
-  final SettingsVar s=Get.put(SettingsVar());
+  final SettingsVar s=Get.find();
 
   bool hoverAbout=false;
 
@@ -62,9 +63,11 @@ class _SettingsState extends State<Settings> {
                     ),
                   )
                 )).toList(),
-                onChanged: (val){
+                onChanged: (val) async {
                   if(val!=null){
                     s.contextLength.value=val;
+                    SharedPreferences prefs=await SharedPreferences.getInstance();
+                    prefs.setString('contextLength', val);
                   }
                 },
               )

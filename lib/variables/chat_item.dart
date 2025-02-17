@@ -33,7 +33,7 @@ class ChatItem{
 
   StreamSubscription<String>? subscription;
   
-  final SettingsVar s=Get.put(SettingsVar());
+  final SettingsVar s=Get.find();
 
   List<Map> toMap(){
     List<Map> ls=[];
