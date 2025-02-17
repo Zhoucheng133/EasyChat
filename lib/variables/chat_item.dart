@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 
 enum RoleEnum{
   user,
-  bot,
+  assistant,
 }
 
 class ChatMessage{
@@ -18,7 +18,7 @@ class ChatMessage{
 
   Map toMap(){
     return {
-      "role": role==RoleEnum.bot?"assistant":"user",
+      "role": role==RoleEnum.assistant?"assistant":"user",
       "content": content,
     };
   }
@@ -82,7 +82,7 @@ class ChatItem{
         if(data['choices'][0]['delta']['content']!=null){
           String text=data['choices'][0]['delta']['content'];
           if(messages.last.role==RoleEnum.user){
-            messages.add(ChatMessage(RoleEnum.bot, text));
+            messages.add(ChatMessage(RoleEnum.assistant, text));
           }else{
             messages[messages.length-1].content=messages[messages.length-1].content+text;
           }
