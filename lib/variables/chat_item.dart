@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:easy_chat/variables/settings_var.dart';
 import 'package:easy_chat/variables/user_var.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -31,11 +32,16 @@ class ChatItem{
   ChatItem(this.id, this.name, this.model, this.messages);
 
   StreamSubscription<String>? subscription;
+  
+  final SettingsVar s=Get.put(SettingsVar());
 
   List<Map> toMap(){
     List<Map> ls=[];
     for (var element in messages) {
       ls.add(element.toMap());
+    }
+    if (ls.length > int.parse(s.contextLength.value)) {
+      return ls.sublist(ls.length - int.parse(s.contextLength.value));
     }
     return ls;
   }
