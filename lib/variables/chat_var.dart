@@ -46,6 +46,7 @@ class ChatVar extends GetxController{
         loading.value=true;
       }
     }, (){
+      // TODO 保存对话
       loading.value=false;
     });
   }

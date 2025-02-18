@@ -18,9 +18,16 @@ class ChatMessage{
 
   Map toMap(){
     return {
-      "role": role==RoleEnum.assistant?"assistant":"user",
+      "role": role.name,
       "content": content,
     };
+  }
+
+  factory ChatMessage.fromMap(Map<String, dynamic> data){
+    return ChatMessage(
+      data['role']=="user"?RoleEnum.user : RoleEnum.assistant,
+      data['content'] as String,
+    );
   }
 }
 
@@ -35,15 +42,21 @@ class ChatItem{
   
   final SettingsVar s=Get.find();
 
-  List<Map> toMap(){
-    List<Map> ls=[];
-    for (var element in messages) {
-      ls.add(element.toMap());
+  List<Map> toMap({bool useRequest=false}){
+    if (messages.length > int.parse(s.contextLength.value) && useRequest) {
+      return messages.map((item)=>item.toMap()).toList().sublist(messages.length - int.parse(s.contextLength.value));
     }
-    if (ls.length > int.parse(s.contextLength.value)) {
-      return ls.sublist(ls.length - int.parse(s.contextLength.value));
-    }
-    return ls;
+    return messages.map((item)=>item.toMap()).toList();
+  }
+
+  factory ChatItem.fromString(Map<String, dynamic> json){
+
+    return ChatItem(
+      json['id'] as String, 
+      json['name'] as String?, 
+      json['model'] as String?, 
+      (json['messages'] as List).map((msgItem)=>ChatMessage.fromMap(msgItem as Map<String, dynamic>)).toList()
+    );
   }
 
   void abort(Function abortOk){
@@ -63,7 +76,7 @@ class ChatItem{
     final request = http.Request('POST', Uri.parse('${u.url.value}/v1/chat/completions'));
     final requestBody={
       "model": model,
-      "messages": toMap(),
+      "messages": toMap(useRequest: true),
       "temperature": 0.7, 
       "max_tokens": -1,
       "stream": true
