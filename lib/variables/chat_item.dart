@@ -42,11 +42,20 @@ class ChatItem{
   
   final SettingsVar s=Get.find();
 
-  List<Map> toMap({bool useRequest=false}){
-    if (messages.length > int.parse(s.contextLength.value) && useRequest) {
+  List<Map> sendMsg(){
+    if (messages.length > int.parse(s.contextLength.value)) {
       return messages.map((item)=>item.toMap()).toList().sublist(messages.length - int.parse(s.contextLength.value));
     }
     return messages.map((item)=>item.toMap()).toList();
+  }
+
+  Map toMap(){
+    return {
+      "id": id,
+      "name": name??"",
+      "model": model??"",
+      "messages": messages.map((item)=>item.toMap()).toList()
+    };
   }
 
   factory ChatItem.fromString(Map<String, dynamic> json){
@@ -76,7 +85,7 @@ class ChatItem{
     final request = http.Request('POST', Uri.parse('${u.url.value}/v1/chat/completions'));
     final requestBody={
       "model": model,
-      "messages": toMap(useRequest: true),
+      "messages": sendMsg(),
       "temperature": 0.7, 
       "max_tokens": -1,
       "stream": true

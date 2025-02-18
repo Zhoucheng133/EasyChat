@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:easy_chat/funcs/requests.dart';
 import 'package:easy_chat/variables/chat_item.dart';
 import 'package:easy_chat/variables/page_var.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 
@@ -10,9 +13,17 @@ class ChatVar extends GetxController{
   RxList<ChatItem> chatList=<ChatItem>[].obs;
   RxList<ModelItem> models=<ModelItem>[].obs;
   RxBool loading=false.obs;
+  late SharedPreferences prefs;
 
   Future<void> init() async {
+    prefs=await SharedPreferences.getInstance();
     // TODO 初始化对话列表
+    String? chat=prefs.getString("chat");
+    if(chat!=null){
+      chatList.value=List<ChatItem>.from(
+        (jsonDecode(chat) as List).map((item) => ChatItem.fromString(item)),
+      );
+    }
   }
 
   var uuid = const Uuid();
@@ -46,7 +57,10 @@ class ChatVar extends GetxController{
         loading.value=true;
       }
     }, (){
-      // TODO 保存对话
+      String jsonString=jsonEncode(
+        chatList.map((item)=>item.toMap()).toList()
+      );
+      prefs.setString("chat", jsonString);
       loading.value=false;
     });
   }
