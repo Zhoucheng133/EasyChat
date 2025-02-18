@@ -147,6 +147,7 @@ class _SideBarItemState extends State<SideBarItem> {
               if(controller.text.isNotEmpty){
                 c.chatList[index].name=controller.text;
                 c.chatList.refresh();
+                c.saveChat();
                 Navigator.pop(context);
               }else{
                 dialogs.showErr(context, '重命名失败', '对话名称不能为空');
@@ -164,6 +165,7 @@ class _SideBarItemState extends State<SideBarItem> {
       p.page.value=PageItem(null, PageType.none);
     }
     c.chatList.removeAt(index);
+    c.saveChat();
   }
 
   Future<void> showChatMenu(BuildContext context, TapDownDetails details, int index) async {
