@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easy_chat/funcs/dialogs.dart';
 import 'package:easy_chat/funcs/requests.dart';
 import 'package:easy_chat/variables/chat_item.dart';
 import 'package:easy_chat/variables/page_var.dart';
@@ -16,6 +17,7 @@ class ChatVar extends GetxController{
   RxBool loading=false.obs;
   late SharedPreferences prefs;
   final SettingsVar s=Get.put(SettingsVar());
+  final dialogs=Dialogs();
 
   Future<void> init() async {
     prefs=await SharedPreferences.getInstance();
@@ -31,9 +33,13 @@ class ChatVar extends GetxController{
     prefs.remove("chat");
   }
 
-  void clearChats(){
+  void clearChatsHandler(){
     chatList.value=[];
     clearSave();
+  }
+
+  void clearChats(BuildContext context){
+    dialogs.showCancelOk(context, "删除所有的对话", "这个操作不能撤销", ()=>clearChatsHandler());
   }
 
   void saveChats(){

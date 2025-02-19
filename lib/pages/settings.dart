@@ -75,29 +75,39 @@ class _SettingsState extends State<Settings> {
               )
             )
           ),
-          // const SizedBox(height: 10,),
+          const SizedBox(height: 5,),
           SettingsItem(
             label: "保存所有对话", 
-            item: Align(
-              alignment: Alignment.centerLeft,
-              child: Obx(()=>
-                Transform.scale(
-                  scale: 0.8,
-                  child: Switch(
-                    splashRadius: 0,
-                    activeTrackColor: Colors.amber[800],
-                    value: s.saveChats.value, 
-                    onChanged: (val){
-                      s.saveChats.value=val;
-                      if(val){
-                        c.saveChats();
-                      }else{
-                        c.clearSave();
-                      }
+            item: Obx(()=>
+              Transform.scale(
+                scale: 0.8,
+                child: Switch(
+                  splashRadius: 0,
+                  activeTrackColor: Colors.amber[800],
+                  value: s.saveChats.value, 
+                  onChanged: (val){
+                    s.saveChats.value=val;
+                    if(val){
+                      c.saveChats();
+                    }else{
+                      c.clearSave();
                     }
-                  ),
-                )
-              ),
+                  }
+                ),
+              )
+            )
+          ),
+          const SizedBox(height: 5,),
+          SettingsItem(
+            label: "删除所有对话", 
+            item: TextButton(
+              onPressed: ()=>c.clearChats(context), 
+              child: const Text(
+                '删除',
+                style: TextStyle(
+                  color: Colors.red
+                ),
+              )
             )
           ),
           Expanded(child: Container()),
