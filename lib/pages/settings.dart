@@ -1,6 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_chat/components/settings_item.dart';
 import 'package:easy_chat/funcs/dialogs.dart';
+import 'package:easy_chat/variables/chat_var.dart';
 import 'package:easy_chat/variables/settings_var.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,6 +19,7 @@ class _SettingsState extends State<Settings> {
 
   final dialogs=Dialogs();
   final SettingsVar s=Get.find();
+  final ChatVar c=Get.find();
 
   bool hoverAbout=false;
 
@@ -87,6 +89,7 @@ class _SettingsState extends State<Settings> {
                     value: s.saveChats.value, 
                     onChanged: (val){
                       s.saveChats.value=val;
+                      c.clearSave();
                     }
                   ),
                 )

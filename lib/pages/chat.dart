@@ -116,6 +116,9 @@ class _ChatState extends State<Chat> {
                           selectedModel=value;
                         });
                         c.chatList[p.page.value.index??0].model=selectedModel;
+                        setState(() {
+                          selectedModel=null;
+                        });
                       }
                     },
                   )

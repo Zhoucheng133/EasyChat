@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:easy_chat/funcs/requests.dart';
 import 'package:easy_chat/variables/chat_item.dart';
 import 'package:easy_chat/variables/page_var.dart';
+import 'package:easy_chat/variables/settings_var.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +15,7 @@ class ChatVar extends GetxController{
   RxList<ModelItem> models=<ModelItem>[].obs;
   RxBool loading=false.obs;
   late SharedPreferences prefs;
+  final SettingsVar s=Get.put(SettingsVar());
 
   Future<void> init() async {
     prefs=await SharedPreferences.getInstance();
@@ -25,7 +27,19 @@ class ChatVar extends GetxController{
     }
   }
 
-  void saveChat(){
+  void clearSave(){
+    prefs.remove("chat");
+  }
+
+  void clearChats(){
+    chatList.value=[];
+    clearSave();
+  }
+
+  void saveChats(){
+    if(!s.saveChats.value){
+      return;
+    }
     String jsonString=jsonEncode(
       chatList.map((item)=>item.toMap()).toList()
     );
@@ -63,7 +77,7 @@ class ChatVar extends GetxController{
         loading.value=true;
       }
     }, (){
-      saveChat();
+      saveChats();
       loading.value=false;
     });
   }
