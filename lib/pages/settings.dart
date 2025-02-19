@@ -89,7 +89,11 @@ class _SettingsState extends State<Settings> {
                     value: s.saveChats.value, 
                     onChanged: (val){
                       s.saveChats.value=val;
-                      c.clearSave();
+                      if(val){
+                        c.saveChats();
+                      }else{
+                        c.clearSave();
+                      }
                     }
                   ),
                 )
