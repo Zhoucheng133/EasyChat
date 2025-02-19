@@ -27,7 +27,10 @@ class _SettingsItemState extends State<SettingsItem> {
         const SizedBox(width: 10,),
         SizedBox(
           width: 220,
-          child: widget.item
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: widget.item
+          )
         )
       ],
     );
