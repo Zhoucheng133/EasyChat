@@ -15,4 +15,5 @@ class SettingsVar extends GetxController{
   List contextItems=[
     '10', '20', '30', '40', '50'
   ];
+  RxBool saveChats=true.obs;
 }
