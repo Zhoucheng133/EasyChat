@@ -53,7 +53,7 @@ class Requests {
 
   Future<bool> checkUrl(String url) async {
     try {
-      await http.get(Uri.parse("$url/v1/models"));
+      await http.get(Uri.parse("$url/v1/models")).timeout(const Duration(seconds: 3));
     } catch (_) {
       return false;
     }
@@ -62,20 +62,20 @@ class Requests {
   
 
   Future<List<ModelItem>> getModels() async {
-  final UserVar u = Get.find();
-  Map response = await httpRequest("${u.url.value}/v1/models");
-  if (response.isNotEmpty) {
-    try {
-      var data = response['data'];
-      if (data is List) {
-        // 将每个元素转换为 ModelItem 实例
-        List<ModelItem> modelItems = data
-        .map((item) => ModelItem.fromMap(item as Map<String, dynamic>))
-        .toList();
-        return modelItems;
-      }
-    } catch (_) {}
+    final UserVar u = Get.find();
+    Map response = await httpRequest("${u.url.value}/v1/models");
+    if (response.isNotEmpty) {
+      try {
+        var data = response['data'];
+        if (data is List) {
+          // 将每个元素转换为 ModelItem 实例
+          List<ModelItem> modelItems = data
+          .map((item) => ModelItem.fromMap(item as Map<String, dynamic>))
+          .toList();
+          return modelItems;
+        }
+      } catch (_) {}
+    }
+    return [];
   }
-  return [];
-}
 }
