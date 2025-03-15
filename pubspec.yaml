@@ -1,7 +1,7 @@
 name: easy_chat
-description: "A new Flutter project."
+description: "LLM Cilent"
 publish_to: 'none'
-version: 0.1.1
+version: 0.1.2
 
 environment:
   sdk: ^3.5.4
