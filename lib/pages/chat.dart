@@ -140,10 +140,12 @@ class _ChatState extends State<Chat> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(10),
-                        child: GptMarkdown(
-                          c.chatList[c.nowIndex()].messages[index].content,
-                          style: TextStyle(
-                            color: c.chatList[c.nowIndex()].messages[index].role==RoleEnum.user ? Colors.white : Colors.black
+                        child: SelectionArea(
+                          child: GptMarkdown(
+                            c.chatList[c.nowIndex()].messages[index].content,
+                            style: TextStyle(
+                              color: c.chatList[c.nowIndex()].messages[index].role==RoleEnum.user ? Colors.white : Colors.black,
+                            ),
                           ),
                         ),
                       ),
